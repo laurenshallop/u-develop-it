@@ -21,6 +21,23 @@ const db = mysql.createConnection(
     console.log('Connected to the election database.')
 );
 
+// Get all candidates
+app.get('/api/candidates', (req, res) => {
+    const sql = `SELECT * FROM candidates`;
+  
+    db.query(sql, (err, rows) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+        return;
+      }
+      res.json({
+        message: 'success',
+        data: rows
+      });
+    });
+  });
+
+
 // This method runs the SQL query and executes the callback with all the resulting rows that match the query.
 //db.query(`SELECT * FROM candidates`, (err, rows) => {
     //console.log(rows);
@@ -118,21 +135,7 @@ db.query(sql, params, (err, result) => {
    // console.log(result);
 //});
 
-// Get all candidates
-app.get('/api/candidates', (req, res) => {
-    const sql = `SELECT * FROM candidates`;
-  
-    db.query(sql, (err, rows) => {
-      if (err) {
-        res.status(500).json({ error: err.message });
-        return;
-      }
-      res.json({
-        message: 'success',
-        data: rows
-      });
-    });
-  });
+
   
 
 // Default response for any other request (Not Found)
